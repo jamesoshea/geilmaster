@@ -10,11 +10,23 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/", function(req, res, next) {
-  console.log(req.body);
   const newExercise = new Exercise({
     ...req.body
   });
   newExercise.save(function(err, exercise) {
+    if (err) return console.error(err);
+    res.sendStatus(200);
+  });
+});
+
+router.put("/", function(req, res, next) {
+  const updatedExercise = new Exercise({
+    ...req.body
+  });
+  Exercise.findOneAndUpdate({ _id: req.body._id }, updatedExercise, function(
+    err,
+    exercise
+  ) {
     if (err) return console.error(err);
     res.sendStatus(200);
   });
